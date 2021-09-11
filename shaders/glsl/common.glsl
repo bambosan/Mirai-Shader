@@ -4,8 +4,8 @@
 
 //#define DYNAMIC_LIGHT_ANGLE
 #define DYNAMIC_L_ANGLE_SPEED 0.008
-#define SUN_LIGHT_ANGLE radians(20.0) // range 0 - 360 and will affected when disabling DYNAMIC_LIGHT_ANGLE
-#define SUN_PATH_ROTATION radians(-30.0)
+#define SUN_LIGHT_ANGLE 20.0 // range 0 - 360 (degrees) and will affected when disabling DYNAMIC_LIGHT_ANGLE
+#define SUN_PATH_ROTATION -30.0
 
 #define SKY_COEFF_R 0.03
 #define SKY_COEFF_G 0.0455
@@ -172,8 +172,10 @@ void calcLpos(out vec3 tlPos, out vec3 lPos){
 		highp float ang = TOTAL_REAL_WORLD_TIME * DYNAMIC_L_ANGLE_SPEED;
 		lPos = normalize(vec3(cos(ang), sin(ang), 0.0));
 	#else
-		lPos = normalize(vec3(cos(SUN_LIGHT_ANGLE), sin(SUN_LIGHT_ANGLE), 0.0));
+		float langrad = radians(SUN_LIGHT_ANGLE);
+		lPos = normalize(vec3(cos(langrad), sin(langrad), 0.0));
 	#endif
-	lPos.yz *= rotate2d(SUN_PATH_ROTATION);
+	float protrad = radians(SUN_PATH_ROTATION);
+	lPos.yz *= rotate2d(protrad);
 	tlPos = lPos.y >= 0.0 ? lPos : -lPos;
 }
