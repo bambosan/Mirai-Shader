@@ -1,0 +1,48 @@
+{
+  "cubemap": {
+    "states": [
+      "Blending"
+    ],
+
+    "blendSrc": "SourceAlpha",
+    "blendDst": "OneMinusSrcAlpha",
+
+    "vertexShader": "shaders/cubemap.vsh",
+    "vrGeometryShader": "shaders/uv.geometry",
+    "fragmentShader": "shaders/cubemap.fsh",
+    "samplerStates": [
+      {
+        "samplerIndex": 0,
+        "textureFilter": "Bilinear",
+        "textureWrap": "Repeat"
+      }
+    ],
+    "vertexFields": [
+      { "field": "Position" },
+      { "field": "UV0" }
+    ],
+
+    "msaaSupport": "Both"
+
+  },
+
+  "end_sky": {
+    "states":[ "DisableDepthWrite", "DisableAlphaWrite" ],
+
+    "msaaSupport": "Both",
+
+    "vertexShader" : "shaders/uv_repeat.vertex" ,
+    "vrGeometryShader": "shaders/uv.geometry",
+    "fragmentShader" : "shaders/texture_ccolor.fragment",
+
+    "vertexFields": [
+      { "field": "Position" },
+      { "field": "Color" },
+      { "field": "UV0" }
+    ],
+
+    "samplerStates": [
+      { "samplerIndex": 0, "textureWrap": "Repeat" }
+    ]
+  }
+}
