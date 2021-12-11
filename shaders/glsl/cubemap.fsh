@@ -30,7 +30,7 @@ float noise3d(vec3 pos){
 	pos = floor(pos);
 	vec2 uv =  (pos.xy + pos.z * vec2(17.0, 37.0)) + f.xy;
 	vec2 uv2 = (pos.xy + (pos.z + 1.0) * vec2(17.0, 37.0)) + f.xy;
-	return mix(texture2D(TEXTURE_0, (uv + 0.5) * 0.00390625).r, texture2D(TEXTURE_0, (uv2 + 0.5) * 0.00390625).r, f.z);
+	return mix(texture2D(noisetex, (uv + 0.5) * 0.00390625).r, texture2D(noisetex, (uv2 + 0.5) * 0.00390625).r, f.z);
 }
 */
 
@@ -55,7 +55,7 @@ float ccdens(vec3 pos){
 	}
 	float heightf = (pos.y - cminh) / vcloudthick;
 	float heighta = saturate(remap(heightf, 0.0, 0.4, 0.0, 1.0) * remap(heightf, 0.6, 1.0, 1.0, 0.0));
-	float locov = texture2D(TEXTURE_0, pos.xz * 1e-5 + TOTAL_REAL_WORLD_TIME * 1e-4).b;
+	float locov = texture2D(noisetex, pos.xz * 1e-5 + TOTAL_REAL_WORLD_TIME * 1e-4).b;
 		locov = saturate(locov * 3.0 - 0.75) * 0.5 + 0.5;
 	return saturate(tot * heighta * locov - (heighta * 0.5 + heightf * 0.5 + 0.31)) * 0.03;
 }
@@ -92,7 +92,7 @@ vec4 ccloudplane(vec3 vwpos, vec3 lpos, vec3 sunc, vec3 monc){
 		movpos *= 2.0;
 		movpos.x += TOTAL_REAL_WORLD_TIME * 0.001;
 	for(int i = 0; i < 4; i++){
-		tot += texture2D(TEXTURE_0, movpos * 0.00390625).r * den;
+		tot += texture2D(noisetex, movpos * 0.00390625).r * den;
 		den *= 0.55;
 		movpos *= 2.0;
 		movpos.y += movpos.y * (0.8 + tot * 0.2);
@@ -109,7 +109,7 @@ void main(){
 	calcLpos(tlpos, spos);
 	atml(spos, sunc, monc, skyzc);
 
-	float dbnoise = texelFetch(TEXTURE_0, ivec2(gl_FragCoord.xy % 256.0), 0).g;
+	float dbnoise = texelFetch(noisetex, ivec2(gl_FragCoord.xy % 256.0), 0).g;
 	vec4 vcloud = ccloudvolume(ajpos, tlpos, sunc, monc, skyzc, dbnoise);
 	vec4 pcloud = ccloudplane(ajpos, tlpos, sunc, monc);
 
