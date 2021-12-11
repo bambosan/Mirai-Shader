@@ -2,7 +2,7 @@
 #include "fragmentVersionSimple.h"
 #include "uniformPerFrameConstants.h"
 
-LAYOUT_BINDING(0) uniform sampler2D TEXTURE_0;
+LAYOUT_BINDING(0) uniform sampler2D noisetex;
 
 #define vcloudh 1000.0
 #define vcloudthick 1200.0
@@ -14,12 +14,25 @@ precision highp float;
 varying vec3 cPos;
 
 float noise3d(vec3 pos){
+	pos.z = fract(pos.z)*256.0;
+	float iz = floor(pos.z);
+	float fz = fract(pos.z);
+	vec2 a_off = vec2(23.0, 29.0)*(iz)/256.0;
+	vec2 b_off = vec2(23.0, 29.0)*(iz+1.0)/256.0;
+	float a = texture2D(noisetex, pos.xy + a_off).r;
+	float b = texture2D(noisetex, pos.xy + b_off).r;
+	return mix(a, b, fz);
+}
+
+/*
+float noise3d(vec3 pos){
 	vec3 f = csmooth(fract(pos));
 	pos = floor(pos);
 	vec2 uv =  (pos.xy + pos.z * vec2(17.0, 37.0)) + f.xy;
 	vec2 uv2 = (pos.xy + (pos.z + 1.0) * vec2(17.0, 37.0)) + f.xy;
 	return mix(texture2D(TEXTURE_0, (uv + 0.5) * 0.00390625).r, texture2D(TEXTURE_0, (uv2 + 0.5) * 0.00390625).r, f.z);
 }
+*/
 
 float sint(float yalt, float h){
 	float r = 6371e3 + h, ds = yalt * 6371e3;
