@@ -107,17 +107,16 @@ void main(){
 		albedo.rgb = toLinear(albedo.rgb);
 
 	float blSource = uv1.x * max(smoothstep(sunVis * uv1.y, 1.0, uv1.x), wrain * uv1.y), outD = smoothstep(0.845, 0.87, uv1.y);
-	vec3 ambCol = szCol * uv1.y + vec3(BLOCK_LIGHT_C_R, BLOCK_LIGHT_C_G, BLOCK_LIGHT_C_B) * blSource + pow(blSource, 5.0) * 1.2, abl = albedo.rgb;
+	vec3 ambCol = szCol * hpi * uv1.y + vec3(BLOCK_LIGHT_C_R, BLOCK_LIGHT_C_G, BLOCK_LIGHT_C_B) * blSource + pow(blSource, 5.0) * 1.2, abl = albedo.rgb;
 
 	vec3 N = normalize(cross(dFdx(cPos.xyz), dFdy(cPos.xyz)));
 	float nDotL = max0(dot(N, tlPos));
-		ambCol += (sunCol + moonCol) * nDotL * outD * (1.0 - wrain);
+		ambCol += (sunCol  + moonCol) * nDotL * outD * (1.0 - wrain);
 		albedo.rgb = (albedo.rgb * ambCol);
 
 	float fdist = max0(length(wPos) / FOG_DISTANCE);
-		albedo.rgb = mix(albedo.rgb, szCol, fdist * mix(mix(SS_FOG_INTENSITY, NOON_FOG_INTENSITY, sunVis), RAIN_FOG_INTENSITY, wrain));
-		albedo.rgb += sunCol * mPhase(max0(1.0 - distance(nWPos, lPos)), FOG_MIE_G) * fdist * FOG_MIE_COEFF;
-
+		albedo.rgb = mix(albedo.rgb, szCol * hpi, fdist * mix(mix(SS_FOG_INTENSITY, NOON_FOG_INTENSITY, sunVis), RAIN_FOG_INTENSITY, wrain));
+		albedo.rgb += sunCol * pi * mPhase(max0(dot(nWPos, lPos)), FOG_MIE_G) * fdist * FOG_MIE_COEFF;
 		albedo.rgb = colorCorrection(albedo.rgb);
 
 	gl_FragColor = albedo;
