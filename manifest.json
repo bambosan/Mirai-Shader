@@ -3,7 +3,7 @@
     "header": {
         "name": "Mirai Shader BE test",
         "description": "a shaders for minecraft be",
-        "uuid": "68c77019-aea0-4b0d-bc50-211861d0695f",
+        "uuid": "790a2b01-249c-4377-9c4d-d9865c320558",
         "version": [0, 0, 1],
         "min_engine_version": [1, 14, 1]
     },
@@ -11,7 +11,7 @@
         {
             "description": "a shader for minecraft be",
             "type": "resources",
-            "uuid": "12dc7d63-07db-4a64-a344-e695f2cd0a37",
+            "uuid": "0e84db6f-85d4-4c10-9ab5-7cb8d55ea0f8",
             "version": [0, 0, 1]
         }
     ]
