@@ -18,14 +18,6 @@
         {
           "samplerIndex": 1,
           "textureFilter": "Bilinear"
-        },
-        {
-          "samplerIndex": 3,
-          "textureFilter": "Point"
-        },
-        {
-          "samplerIndex": 4,
-          "textureFilter": "Point"
         }
       ],
 

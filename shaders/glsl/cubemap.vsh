@@ -4,9 +4,9 @@
 #include "uniformPerFrameConstants.h"
 
 attribute POS4 POSITION;
-varying vec3 cPos;
+varying vec3 cpos;
 
 void main(){
 	gl_Position = WORLDVIEWPROJ * POSITION;
-	cPos = POSITION.xyz;
+	cpos = POSITION.xyz;
 }

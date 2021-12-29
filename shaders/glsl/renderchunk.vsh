@@ -13,16 +13,14 @@
 #endif
 #ifndef BYPASS_PIXEL_SHADER
 	varying vec4 vcolor;
-	varying vec3 sunCol;
-	varying vec3 moonCol;
-	varying vec3 szCol;
-	varying POS3 cPos;
-	varying POS3 wPos;
-	varying POS3 nWPos;
-	varying POS3 lPos;
-	varying POS3 tlPos;
-	varying float sunVis;
-	varying float moonVis;
+	varying vec3 sunc;
+	varying vec3 moonc;
+	varying vec3 zcol;
+	varying highp vec3 cpos;
+	varying highp vec3 wpos;
+	varying highp vec3 lpos;
+	varying highp vec3 tlpos;
+	varying highp float sunv;
 #endif
 
 #include "uniformWorldConstants.h"
@@ -42,9 +40,7 @@ const vec3 UNIT_Y = vec3(0, 1, 0);
 const float DIST_DESATURATION = 56.0 / 255.0;
 
 void main(){
-
 	POS4 worldPos;
-
 #ifdef AS_ENTITY_RENDERER
 		POS4 pos = WORLDVIEWPROJ * POSITION;
 		worldPos = pos;
@@ -53,37 +49,15 @@ void main(){
 		POS4 pos = WORLDVIEW * vec4(worldPos.xyz, 1.0);
 		pos = PROJ * pos;
 #endif
-
 	gl_Position = pos;
-
 #ifndef BYPASS_PIXEL_SHADER
 	uv0 = TEXCOORD_0;
 	uv1 = TEXCOORD_1;
 	vcolor = COLOR;
-	cPos = POSITION.xyz;
-	wPos = worldPos.xyz;
-	nWPos = normalize(worldPos.xyz);
-	calcLpos(tlPos, lPos);
-	sunVis = saturate(lPos.y);
-	moonVis = saturate(-lPos.y);
-	atml(lPos, sunCol, moonCol, szCol);
-#endif
-
-#ifdef BLEND
-	if(vcolor.a < 0.95){
-		#ifdef FANCY
-			vcolor = COLOR;
-		#else
-			vcolor = vec4(COLOR.rgb, 1.0);
-		#endif
-		float camDist = length(-worldPos.xyz) / FAR_CHUNKS_DISTANCE;
-		vcolor.a = mix(vcolor.a, 1.0, saturate(camDist));
-	}
-#endif
-
-#ifndef BYPASS_PIXEL_SHADER
-	#ifndef FOG
-		vcolor.rgb += FOG_COLOR.rgb * 1e-5;
-	#endif
+	cpos = POSITION.xyz;
+	wpos = worldPos.xyz;
+	clpos(tlpos, lpos);
+	sunv = saturate(lpos.y);
+	atml(lpos, sunc, moonc, zcol);
 #endif
 }
