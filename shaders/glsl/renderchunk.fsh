@@ -180,7 +180,7 @@ void main(){
 		#endif
 		#ifdef ENABLE_SPECULAR_REFLECTION
 			float sggx = ggx(n, ndl, ndv, ndh, 0.04);
-			albedo += vec4(sunc, 1.0) * sggx;
+			albedo += vec4(sunc + moonc, 1.0) * sggx;
 		#endif
 	}
 

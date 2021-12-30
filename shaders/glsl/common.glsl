@@ -1,16 +1,15 @@
 //////////////////////////////////////////////////////////////
 ////////////////// TOGGLE FEATURES ///////////////////////////
 //////////////////////////////////////////////////////////////
-/* disable of the features by giving two slashes
-example
+/*
+disable of the features by giving two slashes
 
+example
 this is enabled
 #define ENABLE_DYNAMIC_LIGHT_ANGLE
 
 this is disabled
 //#define ENABLE_DYNAMIC_LIGHT_ANGLE
-
-okay :)
 */
 
 //#define ENABLE_DYNAMIC_LIGHT_ANGLE
@@ -24,10 +23,11 @@ okay :)
 
 //////////////////////////////////////////////////////////////
 ///////////////// ADJUSTABLE VARIABLE ////////////////////////
-//////////////////////////////////////////////////////////////
+/////////////// DONT DISABLE ANYTHING! ///////////////////////
 
 // adjust how fast time passes
-//#define DYNAMIC_LIGHT_ANGLE_SPEED 0.05
+#define DYNAMIC_LIGHT_ANGLE_SPEED 0.05
+
 // range 0 - 360 (degrees) and will affected when disabling DYNAMIC_LIGHT_ANGLE
 // 0 - 180 is full of daytime and 180 - 360 is full night time
 #define SUN_LIGHT_ANGLE 3.0
@@ -60,14 +60,25 @@ okay :)
 #define VOLUMETRIC_CLOUD_HEIGHT 6e2 // 6e2 = 600
 // set volumetric cloud thickness in meters
 #define VOLUMETRIC_CLOUD_THICKNESS 1e3 // 1e3 = 1000
+
+// bigger is more
+#define VOLUMETRIC_CLOUD_DENSITY 0.55
+
+// litte more soft
+#define VOLUMETRIC_CLOUD_SHARPNESS 0.2
+
 // volumetric cloud steps, this is the main value of quality. bigger is better, smaller will be more dither
 #define VOLUMETRIC_CLOUD_STEPS 30
+
 // volumetric cloud light steps, affected on the thickness of light absorbed by cloud
 #define VOLUMETRIC_CLOUD_LIGHT_STEPS 4
+
 // value of cloud brightness in the area near sun
 #define VOLUMETRIC_CLOUD_MIE_STRENGTH 0.4
+
 // light scatter of cloud from the area near sun
 #define VOLUMETRIC_CLOUD_MIE_DIRECTIONAL_G 0.7
+
 #define CIRRUS_CLOUD_MIE_STRENGTH 0.2
 #define CIRRUS_CLOUD_MIE_DIRECTIONAL_G 0.75
 
@@ -84,7 +95,7 @@ okay :)
 
 // sorry my english is so bad :(
 ///////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////
+//////////////////////////// OK ///////////////////////////////
 ///////////////////////////////////////////////////////////////
 
 precision highp float;
@@ -187,7 +198,7 @@ float star(vec3 p){
 
 vec3 csky(vec3 nwpos, vec3 spos){
 	vec3 sunc = cab(spos.y);
-		sunc *= 1e3;
+		sunc *= 500.0;
 		sunc *= cir(nwpos, spos, 3e3);
 	vec3 moonc = cab(-spos.y);
 		moonc = mix(vec3(luma(moonc)), moonc, 0.5) * 100.0;
