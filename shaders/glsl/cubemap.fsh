@@ -29,12 +29,12 @@ float ccd(vec3 pos){
 	for(int i = 0; i < 5; i++){
 		tot += noise3d(movp) * den;
 		den *= 0.5;
-		movp *= 2.8;
-		movp.xz += TOTAL_REAL_WORLD_TIME * 0.01;
+		movp *= 2.5;
+		movp.xz += TOTAL_REAL_WORLD_TIME * 0.05;
 	}
 	float hf = (pos.y - cminh) / VOLUMETRIC_CLOUD_THICKNESS;
 	float ha = saturate(map(hf, 0.0, 0.4, 0.0, 1.0) * map(hf, 0.7, 1.0, 1.0, 0.0));
-	float cov = (texture2D(TEXTURE_0, pos.xz * 2e-5 + TOTAL_REAL_WORLD_TIME * 1e-4).g * 3.0 - 1.7) * 0.4 + 0.58;
+	float cov = (texture2D(TEXTURE_0, pos.xz * 2e-5 + TOTAL_REAL_WORLD_TIME * 1e-4).b * 3.0 - 1.7) * 0.5 + 0.55;
 	return saturate(tot * ha * cov - (ha * 0.5 + hf * 0.5)) * 0.2;
 }
 
@@ -46,9 +46,9 @@ float ccl(vec3 startp, vec3 lpos){
 }
 
 vec3 ccs(vec3 startp, vec3 lpos, vec3 lcol, vec3 scol, float cdens, float cost){
-	float cis = exp(-clamp(VOLUMETRIC_CLOUD_THICKNESS * 0.7 - startp.y, 0.0, cminh) * 0.005) * 0.5 + 0.4;
+	float cis = exp(-clamp(VOLUMETRIC_CLOUD_THICKNESS * 0.7 - startp.y, 0.0, cminh) * 0.005) * 0.6 + 0.3;
 	float powd = 1.0 - exp(-cdens * 2.0), cls = ccl(startp, lpos), ph = cphase(cost);
-	return  (lcol * cls * powd * ph * pi) + (scol * cis);
+	return  (lcol * cls * powd * ph * 4.0) + (scol * cis);
 }
 
 vec4 ccv(vec3 vwpos, vec3 lpos, vec3 sunc, vec3 monc, vec3 skyzc, float dither){
