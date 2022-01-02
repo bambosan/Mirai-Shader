@@ -54,7 +54,7 @@ vec3 calcVco(vec4 color){
 	}
 	return color.rgb;
 }
-bool isunderwater(vec3 n, vec2 uv1, float ndl) {
+bool isunderwater(vec3 n, vec2 uv1){
 	return uv1.y < 0.9 && abs((2.0 * cpos.y - 15.0) / 16.0 - uv1.y) < 0.00002 && !equ3(textureLod(TEXTURE_0, uv0, 3.0).rgb)	&& (equ3(vcolor.rgb) || vcolor.a < 0.00001)	 && abs(fract(cpos.y) - 0.5) > 0.00001;
 }
 ///////////////////
@@ -179,9 +179,9 @@ void main(){
 		ambc += (sunc + moonc) * ndl * outd * (1.0 - wrain);
 		albedo.rgb = (albedo.rgb * ambc);
 
-	if(isunderwater(n, uv1, ndl)){
-		float abso = exp2(-(1.0 - uv1.y) * dens);
-		albedo.rgb *= mix(vec3(ABSORBTION_C_R, ABSORBTION_C_G, ABSORBTION_C_B), vec3(1), abso);
+	if(isunderwater(n, uv1)){
+		float dens = exp2(-(1.0 - uv1.y) * ABSORBTION_INTENSITY);
+		albedo.rgb *= mix(vec3(ABSORBTION_C_R, ABSORBTION_C_G, ABSORBTION_C_B), vec3(1), dens);
 		#ifdef ENABLE_UNDERWATER_CAUSTIC
 			albedo.rgb += pow(cwav(cpos.xz * 2.0), CAUSTIC_ATTENUATION) * sunc * CAUSTIC_BRIGHTNESS * uv1.y * albedo.rgb;
 		#endif

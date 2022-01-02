@@ -69,8 +69,8 @@ this is disabled
 #define CIRRUS_CLOUD_MIE_DIRECTIONAL_G 0.75
 
 // water reflection settings
-#define SPECULAR_ROUGHNESS
-#define REFLECTION_ROUGHNESS
+#define SPECULAR_ROUGHNESS 0.04
+#define REFLECTION_ROUGHNESS 0.3
 
 // underwater settings
 #define CAUSTIC_ATTENUATION 2.0
