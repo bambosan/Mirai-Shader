@@ -32,28 +32,35 @@ varying vec3 tlpos;
 varying float sunv;
 
 #include "common.glsl"
-// https://github.com/origin0110/OriginShader/blob/main/shaders/glsl/shaderfunction.lin
+
+// https://github.com/origin0110/OriginShader
+bool equ3(vec3 v) {
+	return abs(v.x-v.y) < 0.000002 && abs(v.y-v.z) < 0.000002;
+}
 float getleaao(vec3 color){
 	const vec3 O = vec3(0.682352941176471, 0.643137254901961, 0.164705882352941);
 	const vec3 n = vec3(0.195996912842436, 0.978673548072766, -0.061508507207520);
 	return length(color) / dot(O, n) * dot(normalize(color), n);
 }
-
 float getgraao(vec3 color){
 	const vec3 O = vec3(0.745098039215686, 0.713725490196078, 0.329411764705882);
 	const vec3 n = vec3(0.161675377098328, 0.970052262589970, 0.181272392504186);
 	return length(color) / dot(O, n) * dot(normalize(color), n);
 }
-
 vec3 calcVco(vec4 color){
-	if(abs(color.x - color.y) < 2e-5 && abs(color.y - color.z) < 2e-5) color.rgb = vec3(1.0); else {
+	if(equ3(color.rgb)) color.rgb = vec3(1.0); else {
 		color.a = color.a < 0.001 ? getleaao(color.rgb) : getgraao(color.rgb);
 		color.rgb = color.rgb / color.a;
 	}
 	return color.rgb;
 }
+bool isunderwater(vec3 n, vec2 uv1, float ndl) {
+	return uv1.y < 0.9 && abs((2.0 * cpos.y - 15.0) / 16.0 - uv1.y) < 0.00002 && !equ3(textureLod(TEXTURE_0, uv0, 3.0).rgb)	&& (equ3(vcolor.rgb) || vcolor.a < 0.00001)	 && abs(fract(cpos.y) - 0.5) > 0.00001;
+}
+///////////////////
 
-#if defined(ENABLE_WATERBUMP) || defined(ENABLE_FAKE_CLOUD_REFLECTION)
+
+#if defined(ENABLE_WATERBUMP) || defined(ENABLE_FAKE_CLOUD_REFLECTION) || defined(ENABLE_UNDERWATER_CAUSTIC)
 float hash(float n){ return fract(sin(n) * 43758.5453); }
 float noise(vec2 pos){
 	vec2 ip = floor(pos), fp = csmooth(fract(pos));
@@ -62,12 +69,14 @@ float noise(vec2 pos){
 }
 #endif
 
-#ifdef ENABLE_WATERBUMP
+#if defined(ENABLE_WATERBUMP) || defined(ENABLE_UNDERWATER_CAUSTIC)
 float cwav(vec2 pos){
-	return noise(pos * 1.2 + TOTAL_REAL_WORLD_TIME) + noise(pos * 1.6 - TOTAL_REAL_WORLD_TIME * 1.2);
+    pos.x += TOTAL_REAL_WORLD_TIME;
+	return noise(pos * rotate2d(0.3) * vec2(1.5, 0.5) + vec2(0, TOTAL_REAL_WORLD_TIME)) + noise(pos * rotate2d(-0.3) * vec2(1.7, 0.7) - vec2(0, TOTAL_REAL_WORLD_TIME * 1.1));
 }
 vec3 cnw(vec3 n){
-	float w1 = cwav(cpos.xz), w2 = cwav(vec2(cpos.x - 0.02, cpos.z)), w3 = cwav(vec2(cpos.x, cpos.z - 0.02));
+vec2 wps = cpos.xz * 1.5;
+	float w1 = cwav(wps), w2 = cwav(vec2(wps.x - 0.02, wps.y)), w3 = cwav(vec2(wps.x, wps.y - 0.02));
 	vec3 wn = normalize(vec3(w1 - w2, w1 - w3, 1.0)) * 0.5 + 0.5;
 	mat3 ftbn = mat3(abs(n.y) + n.z, 0.0, n.x, 0.0, 0.0, n.y, -n.x, n.y, n.z);
 	return normalize((wn * 2.0 - 1.0) * ftbn);
@@ -116,7 +125,8 @@ vec4 refl(vec4 albedo, vec3 n, float ndv){
 		sr = sr * cr.a + cr.rgb;
 	#endif
 	#if defined(ENABLE_SKY_REFLECTION) || defined(ENABLE_FAKE_CLOUD_REFLECTION)
-		albedo = mix(albedo, vec4(sr, 1.0), fsc(ndv, 0.2));
+		float fresnel = fsc(ndv, REFLECTION_ROUGHNESS);
+		albedo = mix(albedo, vec4(sr, 1.0), fresnel);
 	#else
 		albedo = vec4(sr, albedo.a);
 	#endif
@@ -152,7 +162,7 @@ void main(){
 		albedo.rgb = tolin(albedo.rgb);
 
 	float bls = uv1.x * max(smoothstep(sunv * uv1.y, 1.0, uv1.x), wrain * uv1.y), outd = smoothstep(0.845, 0.87, uv1.y);
-	vec3 ambc = zcol * hpi * uv1.y + vec3(BLOCK_LIGHT_C_R, BLOCK_LIGHT_C_G, BLOCK_LIGHT_C_B) * bls * (20.0 + pow(bls, 5.0) * 200.0);
+	vec3 ambc = mix(vec3(length(zcol)), zcol, SHADOW_SATURATION) * SHADOW_BRIGHTNESS * uv1.y + vec3(BLOCK_LIGHT_C_R, BLOCK_LIGHT_C_G, BLOCK_LIGHT_C_B) * bls * (20.0 + pow(bls, 5.0) * 200.0);
 
 	bool iswater = false;
 	vec3 n = normalize(cross(dFdx(cpos.xyz), dFdy(cpos.xyz)));
@@ -169,8 +179,20 @@ void main(){
 		ambc += (sunc + moonc) * ndl * outd * (1.0 - wrain);
 		albedo.rgb = (albedo.rgb * ambc);
 
+	if(isunderwater(n, uv1, ndl)){
+		float abso = exp2(-(1.0 - uv1.y) * dens);
+		albedo.rgb *= mix(vec3(ABSORBTION_C_R, ABSORBTION_C_G, ABSORBTION_C_B), vec3(1), abso);
+		#ifdef ENABLE_UNDERWATER_CAUSTIC
+			albedo.rgb += pow(cwav(cpos.xz * 2.0), CAUSTIC_ATTENUATION) * sunc * CAUSTIC_BRIGHTNESS * uv1.y * albedo.rgb;
+		#endif
+	}
+
+	float fdist = max0(length(wpos) / FOG_DISTANCE);
+		albedo.rgb = mix(albedo.rgb, zcol * hpi, fdist * mix(mix(SS_FOG_INTENSITY, NOON_FOG_INTENSITY, sunv), RAIN_FOG_INTENSITY, wrain));
+		albedo.rgb += sunc * pi * mphase(max0(dot(normalize(wpos), lpos)), FOG_MIE_G) * fdist * FOG_MIE_COEFF;
+
 	if(iswater){
-		albedo.a *= 0.7;
+		albedo.a *= 0.5;
 		vec3 vdir = normalize(-wpos), hdir = normalize(vdir + tlpos);
 		float ndv = max(0.001, dot(n, vdir)), ndh = max(0.001, dot(n, hdir));
 
@@ -179,16 +201,12 @@ void main(){
 			albedo = refl(albedo, n, ndv);
 		#endif
 		#ifdef ENABLE_SPECULAR_REFLECTION
-			float sggx = ggx(n, ndl, ndv, ndh, 0.04);
+			float sggx = ggx(n, ndl, ndv, ndh, SPECULAR_ROUGHNESS);
 			albedo += vec4(sunc + moonc, 1.0) * sggx;
 		#endif
 	}
 
-	float fdist = max0(length(wpos) / FOG_DISTANCE);
-		albedo.rgb = mix(albedo.rgb, zcol * hpi, fdist * mix(mix(SS_FOG_INTENSITY, NOON_FOG_INTENSITY, sunv), RAIN_FOG_INTENSITY, wrain));
-		albedo.rgb += sunc * pi * mphase(max0(dot(normalize(wpos), lpos)), FOG_MIE_G) * fdist * FOG_MIE_COEFF;
 		albedo.rgb = colcor(albedo.rgb);
-
 	gl_FragColor = albedo;
 #endif
 }

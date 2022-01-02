@@ -34,8 +34,8 @@ float ccd(vec3 pos){
 	}
 	float hf = (pos.y - cminh) / VOLUMETRIC_CLOUD_THICKNESS;
 	float ha = saturate(map(hf, 0.0, 0.4, 0.0, 1.0) * map(hf, 0.7, 1.0, 1.0, 0.0));
-	float cov = (texture2D(TEXTURE_0, pos.xz * 2e-5 + TOTAL_REAL_WORLD_TIME * 1e-4).b * 3.0 - 1.7) * 0.5 + VOLUMETRIC_CLOUD_DENSITY;
-	return saturate(tot * ha * cov - (ha * 0.5 + hf * 0.5)) * VOLUMETRIC_CLOUD_SHARPNESS;
+	float cov = (texture2D(TEXTURE_0, pos.xz * 2e-5 + TOTAL_REAL_WORLD_TIME * 1e-4).b * 3.0 - 1.7) * 0.5 + 0.55;
+	return saturate(tot * ha * cov - (ha * 0.5 + hf * 0.5)) * 0.2;
 }
 
 float ccl(vec3 startp, vec3 lpos){
@@ -48,7 +48,7 @@ float ccl(vec3 startp, vec3 lpos){
 vec3 ccs(vec3 startp, vec3 lpos, vec3 lcol, vec3 scol, float cdens, float cost){
 	float cis = exp(-clamp(VOLUMETRIC_CLOUD_THICKNESS * 0.7 - startp.y, 0.0, cminh) * 0.005) * 0.6 + 0.3;
 	float powd = 1.0 - exp(-cdens * 2.0), cls = ccl(startp, lpos), ph = cphase(cost);
-	return  (lcol * cls * powd * ph * 4.0) + (scol * cis);
+	return  (lcol * cls * powd * ph * 3.0) + (scol * cis * invpi);
 }
 
 vec4 ccv(vec3 vwpos, vec3 lpos, vec3 sunc, vec3 monc, vec3 skyzc, float dither){
@@ -61,11 +61,11 @@ vec4 ccv(vec3 vwpos, vec3 lpos, vec3 sunc, vec3 monc, vec3 skyzc, float dither){
 		float cdens = ccd(startp) * length(dir);
 		if(cdens <= 0.0) continue;
 		float cod = exp(-cdens);
-		vec3 cs = ccs(startp, lpos, (sunc + monc * hpi), skyzc, cdens, cost);
+		vec3 cs = ccs(startp, lpos, (sunc + monc), skyzc, cdens, cost);
 		tclsc += cs * (-tr * cod + tr);
 		tr *= cod;
     }
-	return mix(vec4(tclsc * hpi, tr), vec4(0.0, 0.0, 0.0, 1.0), saturate(length(startp) * 2.5e-5));
+	return mix(vec4(tclsc * pi, tr), vec4(0.0, 0.0, 0.0, 1.0), saturate(length(startp) * 2.5e-5));
 }
 #endif
 
@@ -83,10 +83,10 @@ vec4 ccc(vec3 vwpos, vec3 lpos, vec3 sunc, vec3 monc){
 		movp.y += movp.y * (0.7 + tot * 0.3);
 		movp.x += TOTAL_REAL_WORLD_TIME * 0.01;
 	}
-		tot = 1.0 - pow(0.8, max0(1.0 - tot));
+		tot = 1.0 - pow(0.6, max0(1.0 - tot));
 	float phase = cphase2(dot(vwpos, lpos));
 	float cpowd = 1.0 - exp(-tot * 2.0);
-	return mix(vec4((sunc * pi + monc) * cpowd * phase, exp(-tot)), vec4(0.0,0.0,0.0,1.0), smoothstep(0.5, 0.0, vwpos.y));
+	return mix(vec4((sunc * pi + monc * pi) * cpowd * phase, exp(-tot)), vec4(0.0,0.0,0.0,1.0), smoothstep(0.5, 0.0, vwpos.y));
 }
 #endif
 
