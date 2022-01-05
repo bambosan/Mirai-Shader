@@ -30,7 +30,7 @@ this is disabled
 
 // range 0 - 360 (degrees) and will affected when disabling DYNAMIC_LIGHT_ANGLE
 // 0 - 180 is full daytime and 180 - 360 is full night time
-#define SUN_LIGHT_ANGLE 90.0
+#define SUN_LIGHT_ANGLE 210.0
 
 // rotation of the sun in z direction
 #define SUN_PATH_ROTATION -40.0

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Mirai Shaders BE</title>
+		<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+		<script src="https://kit.fontawesome.com/1bdb927010.js"></script>
+		<link href="https://unpkg.com/swiper/swiper-bundle.min.css" rel="stylesheet">
+		<style media="screen">
+			*{margin: 0; padding: 0}
+			a{color: #ABABAB; text-decoration: none}
+			a:hover{color: #C70500}
+			body{
+				font-family:Open Sans;
+				background: #000000;
+				color: #ABABAB;
+				-webkit-tap-highlight-color:transparent;
+				max-width: 800px;
+				margin: auto;
+			}
+			header{
+				margin: 15vh 0 0 15px;
+				text-align: left;
+				font-size: 3em
+			}
+			footer{
+				margin: 60px;
+				text-align: center;
+				font-size: 1em
+			}
+			p{
+				font-size: 1em;
+				text-align: justify;
+				line-height: 25px;
+				padding: 2px
+			}
+			ul{padding: 15px}
+			.name{
+				margin: 20px 0 0 15px;
+				text-align: left;
+				font-size: 1.5em
+			}
+			.col{
+				height: auto;
+				margin: 15px;
+				border-radius: 5px
+			}
+			.hpack{
+				display: block;
+				font-size: 2em;
+				line-height: 30px;
+				text-align: left;
+				text-decoration: none
+			}
+			.infpack{font-size: 0.7em}
+			@media (max-width: 512px){
+				header{font-size: 2.3em}
+				.name{font-size: 1.3em}
+				.hpack{font-size: 1.8em}
+				.infpack{font-size: 0.6em}
+			}
+			.swiper-slide img{
+				display: block;
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+			}
+		</style>
+		<script>
+			async function load(url, sel){
+				const obj = await (await fetch(url)).json();
+				if(obj == 0){ return "not released"; } else {
+					switch(sel){
+						case 1: let uval = obj[0].assets[0].updated_at;
+							return uval.slice(0,10); break;
+						case 2: let fsval = obj[0].assets[0].size;
+							return (Math.round((fsval/1e6)*1000)/1000)+" MB"; break;
+						case 3: return obj[0].assets[0].download_count; break;
+					}
+				}
+			}
+			const mirai = 'https://api.github.com/repos/bambosan/Mirai-Shaders-BE/releases';
+			load(mirai,1).then(val => { mirai_lu.innerHTML = val});
+			load(mirai,2).then(val => { mirai_sf.innerHTML = val});
+			load(mirai,3).then(val => { mirai_td.innerHTML = val});
+		</script>
+	</head>
+	<body>
+		<div class="name"><a href="#"><i class="fab fa-github"></i> bambosan repositories</a></div>
+		<header><b>Mirai Shaders BE</b></header>
+		<div class="col">
+			<p class="infpack">
+				<i class="far fa-calendar-check"></i>&nbsp;<span id="mirai_lu"></span>&nbsp;&nbsp;&nbsp;&nbsp;<i class="far fa-file"></i>&nbsp;<span id="mirai_sf"></span>&nbsp;&nbsp;&nbsp;&nbsp;<i class="fas fa-download"></i>&nbsp;<span id="mirai_td"></span>
+			</p>
+			<p>Mirai shader is a shader (resource pack) for the Minecraft BE with focuses on the quality of the environment (not really correct) and have some features such as volumetric cloud, sky, waterbump, caustic etc.. <br><br>
+			This shader is not related to minecraft default time because all the lighting elements in this shader use atmospheric scattering, so an accurate value of the sun's position is needed. Here I tricked it by creating a fake position (value) that can be set by the user.</p><br>
+			<h2>Shader Settings</h2>
+			<p>to make some changes in the shader go to <b>root directori of this shader > shaders > glsl > common.glsl</b><br>You can also change the time cycle or position of sun</p><br>
+			<h2>Changelog</h2>
+			<p>coming soon.. maybe</p><br>
+			<h2>Screenshoot</h2>
+			<div class="swiper mySwiper">
+				<div class="swiper-wrapper">
+					<div class="swiper-slide"><img src="./pic/ss1.jpg" alt=""></div>
+					<div class="swiper-slide"><img src="./pic/ss2.jpg" alt=""></div>
+					<div class="swiper-slide"><img src="./pic/ss3.jpg" alt=""></div>
+					<div class="swiper-slide"><img src="./pic/ss4.jpg" alt=""></div>
+					<div class="swiper-slide"><img src="./pic/ss5.jpg" alt=""></div>
+					<div class="swiper-slide"><img src="./pic/ss6.jpg" alt=""></div>
+				</div>
+				<div class="swiper-button-next" style="color: #ABABAB"></div>
+				<div class="swiper-button-prev" style="color: #ABABAB"></div>
+			</div><br>
+			<h2>Note !</h2>
+			<ul>
+				<li>This shader is only recommended for high-end devices</li>
+				<li>This shader is not playable and the time cycle is not matched with minecraft default time, so this shader is not survival friendly.</li>
+			</ul><br>
+			<h2>Download</h2><br>
+			<a href="#" style="padding: 15px; background: #141414">Mirai Shaders BE 0.0.1</a>
+			<br><br><br><br>
+			<h2>Support Me</h2><br>
+			<a href="#" style="padding: 15px; background: #141414">buy me a coffee</a><br><br><br>
+			<a href="#" style="padding: 15px; background: #141414">saweria</a>
+		</div>
+		<br><br>
+		<footer>&copy; 2021 bambosan</footer>
+		<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+		<script>
+			var swiper = new Swiper(".mySwiper", {
+				spaceBetween: 10,
+				slidesPerView: 1,
+				loop: true,
+				autoplay: {
+					delay: 2000,
+					disableOnInteraction: true,
+				},
+				navigation: {
+					nextEl: ".swiper-button-next",
+					prevEl: ".swiper-button-prev",
+				},
+			});
+		</script>
+	</body>
+</html>
