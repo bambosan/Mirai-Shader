@@ -1,0 +1,122 @@
+*{ margin: 0; padding: 0 }
+body{
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color: #dfdfdf;
+    background-color: #1a1a1a;
+}
+a{
+    color: #dfdfdf;
+    text-decoration: none;
+    transition: all 0.3s
+}
+a:hover{ color: red }
+#contain{
+    margin: 0 auto;
+    padding: 20px;
+    width: 70vw;
+}
+nav{
+    height: 40px;
+    position: relative;
+    box-shadow: 4px 4px 5px 1px black
+}
+nav #gico, #navcon, #navbtn{
+    position: absolute;
+    top: 7px;
+}
+nav #gico{ left: 5px }
+nav #navcon{ right: 3px }
+
+nav a{ font-size: 1.2em }
+nav #navcon a{ padding: 0 5px 0 5px }
+#navbtn{ display: none }
+#headers{ padding: 130px 0 10px 0 }
+#headers #mainhead{ font-size: 3.5em; text-shadow: 4px 4px 10px black }
+#headers #labout{ text-shadow: 2px 2px 5px black }
+#headers #labout{ font-size: 14px }
+#rephead{
+    margin-bottom: 10px;
+    font-size: 1.8em;
+    text-shadow: 3px 3px 6px black
+}
+#repbox{
+    padding: 10px;
+    width: auto;
+    line-height: 30px;
+    box-shadow: 4px 4px 5px 1px black
+}
+#repbox a{ font-size: 1.5em }
+#repbox p{ font-size: 1em }
+#follhead{
+    margin-bottom: 10px;
+    font-size: 1.8em;
+    text-shadow: 3px 3px 6px black
+}
+#follbox{
+    padding: 10px;
+    width: 15vw;
+    line-height: 30px;
+    box-shadow: 4px 4px 5px 1px black
+}
+#follbox a{ font-size: 1.2em }
+footer{ padding: 80px 0 20px 0 }
+footer p{ text-shadow: 3px 3px 4px black }
+@media (max-width: 850px){
+    #contain{
+        margin: 0 auto;
+        padding: 15px;
+        width: 90vw
+    }
+    #follbox{ width: 20vw }
+}
+@media (max-width: 658px){
+    #contain{
+        margin: 0 auto;
+        padding: 15px;
+        width: 90vw
+    }
+    nav #gico{
+        position: absolute;
+        top: 9px;
+        left: 5px
+    }
+    nav #navbtn{
+        position: absolute;
+        display: block;
+        top: 8px;
+        right: 8px;
+        border: none;
+        background: none;
+        font-size: 1em;
+        color: #dfdfdf
+    }
+    nav #navcon{
+        display: inline-block;
+        overflow: hidden;
+        transition: 0.3s;
+        top: 30px;
+        right: 0px;
+        width: 80px;
+        height: 0px;
+        text-align: right;
+        line-height: 25px;
+        background-color: #161616
+    }
+    nav a{ font-size: 1em }
+    #headers{ padding-top: 80px }
+    #headers #mainhead{ font-size: 2.5em }
+    #headers #labout{ font-size: 0.8em }
+    #rephead{ font-size: 1.5em }
+    #repbox a{ font-size: 1.2em }
+    #repbox p{ font-size: 0.9em }
+    #follhead{ font-size: 1.4em }
+    #follbox a{ font-size: 1em }
+}
+@media (max-width: 500px){
+    #contain{
+        margin: 0 auto;
+        padding: 10px;
+        width: 96vw
+    }
+    #follbox{ width: 30vw }
+}
