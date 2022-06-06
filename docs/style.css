@@ -46,6 +46,7 @@ nav #navcon a{ padding: 0 5px 0 5px }
 }
 #box1 a{ font-size: 1.5em }
 #box1 p{ font-size: 1em }
+#box1 ul{ margin-left: 12px; font-size: 1em }
 #follhead{
     margin-bottom: 10px;
     font-size: 1.8em;
@@ -114,6 +115,7 @@ footer p{ text-shadow: 3px 3px 4px black }
     #rephead{ font-size: 1.5em }
     #box1 a{ font-size: 1.2em }
     #box1 p{ font-size: 0.9em }
+    #box1 ul{ font-size: 0.9em }
     #follhead{ font-size: 1.4em }
     #box2 a{ font-size: 1em }
 }
