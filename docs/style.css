@@ -34,7 +34,7 @@ nav #navcon a{ padding: 0 5px 0 8px }
 #headers #mainhead{ font-size: 3.5em; text-shadow: 4px 4px 10px black }
 #headers #labout{ text-shadow: 2px 2px 5px black }
 #headers #labout{ font-size: 14px }
-#rephead{
+#chead{
     margin-bottom: 10px;
     font-size: 1.8em;
     text-shadow: 3px 3px 6px black
@@ -113,7 +113,7 @@ footer p{ text-shadow: 3px 3px 4px black }
     #headers{ padding-top: 80px }
     #headers #mainhead{ font-size: 2.5em }
     #headers #labout{ font-size: 0.8em }
-    #rephead{ font-size: 1.5em }
+    #chead{ font-size: 1.5em }
     #box1 a{ font-size: 1.2em }
 }
 @media (max-width: 500px){
