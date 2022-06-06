@@ -20,14 +20,14 @@ nav{
     position: relative;
     box-shadow: 4px 4px 5px 1px black
 }
+nav a{ font-size: 1.2em }
 nav #gico, #navcon, #navbtn{
     position: absolute;
     top: 7px;
 }
 nav #gico{ left: 5px }
-nav #navcon{ right: 3px }
-nav a{ font-size: 1.2em }
-nav #navcon a{ padding: 0 5px 0 5px }
+nav #navcon{ right: 0px }
+nav #navcon a{ padding: 0 5px 0 8px }
 #navbtn{ display: none }
 #headers{ padding: 130px 0 10px 0 }
 #headers #mainhead{ font-size: 3.5em; text-shadow: 4px 4px 10px black }
@@ -49,7 +49,7 @@ nav #navcon a{ padding: 0 5px 0 5px }
 #box1 ul{ margin-left: 12px; font-size: 1em }
 #box2{
     padding: 10px;
-    width: 15vw;
+    width: 18vw;
     line-height: 30px;
     box-shadow: 4px 4px 5px 1px black
 }
@@ -68,7 +68,7 @@ footer p{ text-shadow: 3px 3px 4px black }
         padding: 15px;
         width: 90vw
     }
-    #box2{ width: 20vw }
+    #box2{ width: 25vw }
 }
 @media (max-width: 658px){
     #contain{
@@ -76,6 +76,7 @@ footer p{ text-shadow: 3px 3px 4px black }
         padding: 15px;
         width: 90vw
     }
+    nav a{ font-size: 1em }
     nav #gico{
         position: absolute;
         top: 9px;
@@ -92,26 +93,25 @@ footer p{ text-shadow: 3px 3px 4px black }
         color: #dfdfdf
     }
     nav #navcon{
-        display: inline-block;
         overflow: hidden;
         transition: 0.3s;
-        top: 30px;
-        right: 0px;
-        width: 80px;
+        top: 50px;
+        width: 100%;
         height: 0px;
-        text-align: right;
-        line-height: 25px;
-        background-color: #161616
+        text-align: center;
+        line-height: 30px;
+        background-color: #1a1a1a
     }
-    nav a{ font-size: 1em }
+    .navtog{
+        height: 120px !important;
+        box-shadow: 4px 4px 5px 1px black
+    }
+    nav #navcon a{ display: block }
     #headers{ padding-top: 80px }
     #headers #mainhead{ font-size: 2.5em }
     #headers #labout{ font-size: 0.8em }
     #rephead{ font-size: 1.5em }
     #box1 a{ font-size: 1.2em }
-    #box1 p{ font-size: 1em }
-    #box1 ul{ font-size: 1em }
-    #box2 a{ font-size: 1em }
 }
 @media (max-width: 500px){
     #contain{
@@ -119,5 +119,5 @@ footer p{ text-shadow: 3px 3px 4px black }
         padding: 10px;
         width: 95vw
     }
-    #box2{ width: 30vw }
+    #box2{ width: 35vw }
 }
