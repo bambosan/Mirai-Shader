@@ -2,7 +2,7 @@
 body{
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     color: #dfdfdf;
-    background-color: #1a1a1a;
+    background-color: #1f1f1f;
 }
 a{
     color: #dfdfdf;
@@ -18,6 +18,7 @@ a:hover{ color: red }
 nav{
     height: 40px;
     position: relative;
+    background-color: #1a1a1a;
     box-shadow: 4px 4px 5px 1px black
 }
 nav a{ font-size: 1.2em }
@@ -42,6 +43,7 @@ nav #navcon a{ padding: 0 5px 0 8px }
     padding: 10px;
     width: auto;
     line-height: 25px;
+    background-color: #1a1a1a;
     box-shadow: 4px 4px 5px 1px black
 }
 #box1 a{ font-size: 1.5em }
@@ -51,6 +53,7 @@ nav #navcon a{ padding: 0 5px 0 8px }
     padding: 10px;
     width: 18vw;
     line-height: 30px;
+    background-color: #1a1a1a;
     box-shadow: 4px 4px 5px 1px black
 }
 #box2 a{ font-size: 1.2em }
