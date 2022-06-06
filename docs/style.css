@@ -26,7 +26,6 @@ nav #gico, #navcon, #navbtn{
 }
 nav #gico{ left: 5px }
 nav #navcon{ right: 3px }
-
 nav a{ font-size: 1.2em }
 nav #navcon a{ padding: 0 5px 0 5px }
 #navbtn{ display: none }
@@ -39,35 +38,41 @@ nav #navcon a{ padding: 0 5px 0 5px }
     font-size: 1.8em;
     text-shadow: 3px 3px 6px black
 }
-#repbox{
+#box1{
     padding: 10px;
     width: auto;
-    line-height: 30px;
+    line-height: 25px;
     box-shadow: 4px 4px 5px 1px black
 }
-#repbox a{ font-size: 1.5em }
-#repbox p{ font-size: 1em }
+#box1 a{ font-size: 1.5em }
+#box1 p{ font-size: 1em }
 #follhead{
     margin-bottom: 10px;
     font-size: 1.8em;
     text-shadow: 3px 3px 6px black
 }
-#follbox{
+#box2{
     padding: 10px;
     width: 15vw;
     line-height: 30px;
     box-shadow: 4px 4px 5px 1px black
 }
-#follbox a{ font-size: 1.2em }
+#box2 a{ font-size: 1.2em }
 footer{ padding: 80px 0 20px 0 }
 footer p{ text-shadow: 3px 3px 4px black }
+#box1 .swiper-slide img{
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover
+}
 @media (max-width: 850px){
     #contain{
         margin: 0 auto;
         padding: 15px;
         width: 90vw
     }
-    #follbox{ width: 20vw }
+    #box2{ width: 20vw }
 }
 @media (max-width: 658px){
     #contain{
@@ -107,10 +112,10 @@ footer p{ text-shadow: 3px 3px 4px black }
     #headers #mainhead{ font-size: 2.5em }
     #headers #labout{ font-size: 0.8em }
     #rephead{ font-size: 1.5em }
-    #repbox a{ font-size: 1.2em }
-    #repbox p{ font-size: 0.9em }
+    #box1 a{ font-size: 1.2em }
+    #box1 p{ font-size: 0.9em }
     #follhead{ font-size: 1.4em }
-    #follbox a{ font-size: 1em }
+    #box2 a{ font-size: 1em }
 }
 @media (max-width: 500px){
     #contain{
@@ -118,5 +123,5 @@ footer p{ text-shadow: 3px 3px 4px black }
         padding: 10px;
         width: 96vw
     }
-    #follbox{ width: 30vw }
+    #box2{ width: 30vw }
 }
