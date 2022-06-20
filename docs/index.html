@@ -5,22 +5,101 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>mirai shaders be</title>
   <script src="https://kit.fontawesome.com/1bdb927010.js"></script>
-  <link rel="stylesheet" href="https://bambosan.github.io/a/style.css">
   <link href="https://unpkg.com/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <style>
+    *{ margin: 0; padding: 0 }
+    body{
+        font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        color: #dfdfdf;
+        background-color: #1f1f1f;
+        -webkit-tap-highlight-color: transparent;
+    }
+    a{
+        color: #dfdfdf;
+        text-decoration: none;
+        transition: all 0.3s
+    }
+    a:hover{ color: red; }
+    #contain{
+        margin: 0 auto;
+        padding: 20px;
+        width: 70vw;
+    }
+    #headers{ padding: 100px 0 30px 0 }
+    #headers #mainhead{ font-size: 3.5em; text-shadow: 4px 4px 10px black }
+    #headers #labout{ text-shadow: 2px 2px 5px black }
+    #headers #labout{ font-size: 14px }
+    #chead{
+        margin-bottom: 10px;
+        font-size: 1.8em;
+        text-shadow: 3px 3px 6px black
+    }
+    #box1{
+        padding: 10px;
+        width: auto;
+        line-height: 25px;
+        background-color: #1a1a1a;
+        box-shadow: 4px 4px 5px 1px black
+    }
+    #box1 a{ font-size: 1.5em;}
+    #box1 p{ font-size: 1em }
+    #box1 ul{ margin-left: 12px; font-size: 1em }
+    #box2{
+        padding: 10px;
+        width: 18vw;
+        line-height: 30px;
+        background-color: #1a1a1a;
+        box-shadow: 4px 4px 5px 1px black
+    }
+    #box2 a{ font-size: 1.2em }
+    footer{ padding: 80px 0 20px 0 }
+    footer p{ text-shadow: 3px 3px 4px black }
+    #box1 .swiper-slide img{
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover
+    }
+    @media (max-width: 850px){
+        #contain{
+            margin: 0 auto;
+            padding: 15px;
+            width: 90vw
+        }
+        #box2{ width: 25vw }
+    }
+    @media (max-width: 658px){
+        #contain{
+            margin: 0 auto;
+            padding: 15px;
+            width: 90vw
+        }
+        #headers{ padding-top: 80px }
+        #headers #mainhead{ font-size: 2.5em }
+        #headers #labout{ font-size: 0.8em }
+        #chead{ font-size: 1.5em }
+        #box1 a{ font-size: 1.2em }
+    }
+    @media (max-width: 500px){
+        #contain{
+            margin: 0 auto;
+            padding: 10px;
+            width: 95vw
+        }
+        #box2{ width: 35vw }
+    }
+  </style>
+  <script>
+    const loadd = async() => { return (await (await fetch("https://api.github.com/repos/bambosan/Mirai-Shaders-BE/releases")).json()) }
+    loadd().then(res => {
+      uinfo.innerHTML = (res[0].assets[0].updated_at).slice(0,10);
+      fsize.innerHTML = (Math.round(((res[0].assets[0].size)/1e6)*1e3)/1e3)+" MB";
+      dcount.innerHTML = res[0].assets[0].download_count;
+    })
+  </script>
 </head>
 <body>
   <div id="contain">
-    <nav id="navbar">
-      <a href="#" id="gico"><i class="fab fa-github"></i> Github</a>
-      <button id="navbtn"><i class="fas fa-bars"></i></button>
-      <div id="navcon">
-        <a href="#">Home</a>
-        <a href="#">Tools</a>
-        <a href="#">App</a>
-        <a href="#">Minecraft</a>
-      </div>
-    </nav>
-    <br>
     <div id="headers">
       <p id="mainhead">Mirai Shaders BE</p>
     </div>
@@ -57,21 +136,23 @@
     </div>
     <br><br>
     <p id="chead">Download Shaders</p>
-    <div id="box2">
-      <a href="#"><i class="fas fa-download"></i> Download</a>
+    <div id="box1">
+      <a href="https://github.com/bambosan/Mirai-Shaders-BE/releases/download/v0.0.1/Mirai-Shaders-BE.mcpack"><i class="fas fa-download"></i> Download</a>
+      <p><br>
+        <i class="far fa-calendar-check"></i>&nbsp;<span id="uinfo"></span>&nbsp;&nbsp;&nbsp;&nbsp;<i class="far fa-file"></i>&nbsp;<span id="fsize"></span>&nbsp;&nbsp;&nbsp;&nbsp;<i class="fas fa-download"></i>&nbsp;<span id="dcount"></span>
+      </p>
     </div>
     <br><br>
     <p id="chead">See My Activity on</p>
     <div id="box2">
-      <a href="#"><i class="fab fa-twitter"></i> Twitter</a>
+      <a href="https://twitter.com/bambo_san" target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
       <br>
-      <a href="#"><i class="fab fa-youtube"></i> YouTube</a>
+      <a href="https://www.youtube.com/channel/UCVhl5xGvRnlbIrb6K3CmCHA"><i class="fab fa-youtube" target="_blank"></i> YouTube</a>
     </div>
     <footer>
       <p>Github page<br>by bambosan 2022</p>
     </footer>
   </div>
-  <script src="https://bambosan.github.io/a/script.js"></script>
   <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 	<script>
 	  var swiper = new Swiper(".mySwiper", {
@@ -92,7 +173,7 @@
           slidesPerView: 2,
         }
       }
-		});
+    });
 	</script>
 </body>
 </html>
